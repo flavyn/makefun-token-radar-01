@@ -3,65 +3,65 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pre-token Radar: protocols ranked by implied launch value</title>
+<title>Token Radar — the pre-token protocols, ranked by what their token could be worth</title>
+<meta name="description" content="Every protocol on DefiLlama's watchlist, plus the pre-token protocols under its floor, ranked by an implied value built from real market-cap-to-TVL multiples, seven-day momentum and age.">
 <link rel="stylesheet" href="app.css">
 </head>
 <body>
-<header class="masthead">
-  <div class="masthead-text">
-    <p class="kicker">Implied value at launch &middot; built from the snapshot alone</p>
-    <h1>Pre-token Radar</h1>
-    <p class="dateline" id="dateline">Loading the snapshot.</p>
+
+<header class="mast">
+  <div class="brand">
+    <span class="mark" aria-hidden="true"></span>
+    <div class="brand-text">
+      <h1>Token Radar</h1>
+      <p class="tag">What a protocol's token would be worth if its record stood still</p>
+    </div>
   </div>
-  <dl class="facts" id="facts"></dl>
+  <div class="stamp">
+    <span class="stamp-label">Snapshot</span>
+    <b id="asof">—</b>
+    <span class="stamp-src" id="stampsrc">—</span>
+  </div>
 </header>
 
-<section class="toolbar" aria-label="Filters and sorting">
-  <label class="field grow">
-    <span>Find</span>
-    <input id="q" type="search" placeholder="protocol, category or chain" autocomplete="off">
-  </label>
-  <label class="field">
-    <span>Category</span>
-    <select id="cat"><option value="all">Every category</option></select>
-  </label>
-  <label class="field">
-    <span>Chain</span>
-    <select id="chain"><option value="all">Every chain</option></select>
-  </label>
-  <label class="field">
-    <span>Order</span>
-    <select id="sort">
-      <option value="rank">Rank</option>
-      <option value="tvl">TVL</option>
-      <option value="growth">7-day change</option>
-      <option value="age">Days without a token</option>
-      <option value="name">Name</option>
-    </select>
-  </label>
-  <label class="toggle"><input id="watch" type="checkbox"><span>Watchlist only</span></label>
-  <label class="toggle"><input id="live" type="checkbox"><span>Token-bearing set</span></label>
-</section>
+<section class="facts" id="facts" aria-label="Snapshot figures"></section>
 
-<main class="desk">
+<div class="controls" aria-label="Filter and order the board">
+  <label class="field search"><span>Search</span><input id="q" type="search" placeholder="protocol, slug or chain" autocomplete="off" spellcheck="false"></label>
+  <label class="field"><span>Category</span><select id="cat"></select></label>
+  <label class="field"><span>Chain</span><select id="chain"></select></label>
+  <label class="field"><span>Order</span><select id="sort">
+    <option value="implied">Implied value</option>
+    <option value="tvl">TVL</option>
+    <option value="change">7-day change</option>
+    <option value="comp">Comparables multiple</option>
+    <option value="age">Age in the snapshot</option>
+    <option value="name">Name</option>
+  </select></label>
+  <div class="toggles">
+    <button class="toggle" id="wl" type="button" aria-pressed="false">Watchlist only</button>
+    <button class="toggle" id="live" type="button" aria-pressed="false">Token-bearing</button>
+  </div>
+  <p class="count" id="count">—</p>
+</div>
+
+<main class="layout">
   <section class="board" aria-label="Ranked board">
-    <div class="board-head">
-      <h2 id="board-title">The board</h2>
-      <p id="board-note" class="note"></p>
-    </div>
-    <div class="table-wrap">
+    <p class="banner" id="banner" hidden></p>
+    <div class="tablewrap">
       <table id="table">
-        <thead><tr id="head-row"></tr></thead>
-        <tbody id="body"></tbody>
+        <thead><tr id="head"></tr></thead>
+        <tbody id="rows"></tbody>
       </table>
     </div>
+    <p class="empty" id="empty" hidden>No protocol matches these filters.</p>
   </section>
-
-  <aside class="detail" id="detail" aria-live="polite"></aside>
+  <aside class="detail" id="detail" aria-label="Protocol detail"></aside>
 </main>
 
 <footer class="foot">
-  <p id="footnote"></p>
+  <p><b>How a value is made.</b> Every implied value is the snapshot's own TVL times a market multiple, times the protocol's seven-day momentum, times its maturity. The multiple is the median market-cap-to-TVL of the protocols in this same snapshot whose token already trades; a category with fewer than five of those borrows its family's median, and the detail view says which and how many readings stand behind it. Momentum is 1 + 0.75 × the seven-day change clamped to ±40%. Maturity is 0.70 + 0.30 × age in days, capped at three years. No protocol name is special-cased: one function scores every row.</p>
+  <p class="src" id="footsrc">—</p>
 </footer>
 
 <script src="../data.js"></script>
